@@ -285,6 +285,28 @@ herdr wait agent-status 1-1 --status done --timeout 120000
 herdr pane read 1-1 --source recent --lines 100
 ```
 
+### send a concise update to another agent
+
+use this when you want to hand off findings or give another pane useful context without making it re-discover everything.
+
+recommended flow:
+
+1. use `herdr pane list` to confirm the target pane id.
+2. optionally use `herdr pane read <pane> --source recent --lines 40` to see what that agent is currently doing.
+3. send a short summary with `herdr pane run <pane> "..."`.
+4. include:
+   - source of the information
+   - main conclusion
+   - likely interpretation
+   - what is still unconfirmed
+5. prefer a concise summary over raw logs or large pasted output.
+
+example:
+
+```bash
+herdr pane run 1-1 "Update: I checked the Postman collection and MaterPlatform mainly covers notices, drafted content, ads/push, DM content, store data, and shared platform settings. It looks more like a webmaster or content-operations platform than a core booking API. Host mapping is still unconfirmed."
+```
+
 ## notes
 
 - `workspace list`, `workspace create`, `tab list`, `tab create`, `tab get`, `tab focus`, `tab rename`, `tab close`, `pane list`, `pane get`, `pane split`, `wait output`, and `wait agent-status` print json on success.
